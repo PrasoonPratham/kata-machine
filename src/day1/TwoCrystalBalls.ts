@@ -1,23 +1,31 @@
 export default function two_crystal_balls(breaks: boolean[]): number {
-    let init: number;
-    let step: number;
-    init = Math.floor(Math.sqrt(breaks.length));
-    step = 1;
-    
-    while (step < breaks.length) {
-        if (breaks[step] !== true) {
-            init * step;
-            step += 1;
+    let initial_step: number;
+    let step: number = 0;
+    let start: number = 0;
+    let end: number = breaks.length;
+
+    initial_step = Math.floor(Math.sqrt(breaks.length));
+    for (let index = 1; step < breaks.length; index++) {
+        step = index * initial_step;
+        if (step >= breaks.length) {
+            break;
+        }
+        if (breaks[step]) {
+            start = (index - 1) * initial_step;
+            end = step;
+            break;
+        } else {
+            start = step;
         }
     }
-    return linear_search(breaks, step, step - init);
+
+    return linear_search(breaks, start, end);
 
     function linear_search(arr: boolean[], start: number, end: number): number {
-        while (start <= end) {
-            if (arr[start] === true) {
-               return start;
+        for (let index = start; index < end; index++) {
+            if (arr[index]) {
+                return index;
             }
-            start += 1;
         }
         return -1;
     }
